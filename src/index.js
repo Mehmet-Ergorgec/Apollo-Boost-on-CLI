@@ -1,7 +1,20 @@
+import ApolloClient from 'apollo-boost';
+import 'cross-fetch/polyfill';
 import 'dotenv/config';
 
-const userCredentials = { firstname: 'Robin' };
-const userDetails = { nationality: 'German' };
+const client = new ApolloClient({
+  uri: 'https://api.github.com/graphql',
+  request: (operation) => {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN}`,
+      },
+    });
+  },
+});
+
+const userCredentials = { firstname: 'Mehmet' };
+const userDetails = { nationality: 'E.' };
 
 const user = {
   ...userCredentials,
@@ -10,4 +23,4 @@ const user = {
 
 console.log(user);
 
-console.log(process.env.SOME_ENV_VARIABLE);
+console.log(client);
