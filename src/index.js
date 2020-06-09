@@ -12,15 +12,3 @@ const client = new ApolloClient({
     });
   },
 });
-
-const userCredentials = { firstname: 'Mehmet' };
-const userDetails = { nationality: 'E.' };
-
-const user = {
-  ...userCredentials,
-  ...userDetails,
-};
-
-console.log(user);
-
-console.log(client);
