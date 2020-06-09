@@ -2,15 +2,22 @@ import ApolloClient, { gql } from 'apollo-boost';
 import 'cross-fetch/polyfill';
 import 'dotenv/config';
 
-const GET_ORGANIZATION = gql`
+const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   query($organization: String!) {
     organization(login: $organization) {
       name
       url
+      repositories(first: 5) {
+        edges {
+          node {
+            name
+            url
+          }
+        }
+      }
     }
   }
 `;
-
 const client = new ApolloClient({
   uri: 'https://api.github.com/graphql',
   request: (operation) => {
@@ -24,7 +31,9 @@ const client = new ApolloClient({
 
 client
   .query({
-    query: GET_ORGANIZATION,
-    variables: { organization: 'the-road-to-learn-react' },
+    query: GET_REPOSITORIES_OF_ORGANIZATION,
+    variables: {
+      organization: 'the-road-to-learn-react',
+    },
   })
   .then(console.log);
