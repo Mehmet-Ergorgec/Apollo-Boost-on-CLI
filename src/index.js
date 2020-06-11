@@ -13,6 +13,8 @@ const client = new ApolloClient({
   },
 });
 
+// GET REPOSITORIES OF ORGANIZATION,
+
 const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   query($organization: String!, $cursor: String) {
     organization(login: $organization) {
@@ -85,3 +87,47 @@ client
   })
   // log error when there is no next page
   .catch(console.log);
+
+// ADD STAR
+
+const ADD_STAR = gql`
+  mutation AddStar($repositoryId: ID!) {
+    addStar(input: { starrableId: $repositoryId }) {
+      starrable {
+        id
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+client
+  .mutate({
+    mutation: ADD_STAR,
+    variables: {
+      repositoryId: 'MDEwOlJlcG9zaXRvcnk2MzM1MjkwNw==',
+    },
+  })
+  .then(console.log);
+
+// REMOVE STAR
+
+const REMOVE_STAR = gql`
+  mutation RemoveStar($repositoryId: ID!) {
+    removeStar(input: { starrableId: $repositoryId }) {
+      starrable {
+        id
+        viewerHasStarred
+      }
+    }
+  }
+`;
+
+client
+  .mutate({
+    mutation: REMOVE_STAR,
+    variables: {
+      repositoryId: 'MDEwOlJlcG9zaXRvcnk2MzM1MjkwNw==',
+    },
+  })
+  .then(console.log);
